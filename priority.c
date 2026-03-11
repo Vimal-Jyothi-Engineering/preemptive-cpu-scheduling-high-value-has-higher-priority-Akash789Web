@@ -1,12 +1,12 @@
 #include <stdio.h>
 
-struct process {
+struct process{
     char pid[10];
     int at, bt, pr;
     int rt, ct, tat, wt;
 };
 
-int main() {
+int main(){
 
     int n,i;
 
@@ -20,19 +20,25 @@ int main() {
     }
 
     int completed=0,time=0,idx;
-    int min_pr;
+    int max_pr;
 
     while(completed<n){
 
         idx=-1;
-        min_pr=9999;
+        max_pr=-1;
 
         for(i=0;i<n;i++){
+
             if(p[i].at<=time && p[i].rt>0){
 
-                if(p[i].pr < min_pr){
-                    min_pr=p[i].pr;
+                if(p[i].pr>max_pr){
+                    max_pr=p[i].pr;
                     idx=i;
+                }
+
+                else if(p[i].pr==max_pr){
+                    if(p[i].at<p[idx].at)
+                        idx=i;
                 }
             }
         }
@@ -47,7 +53,8 @@ int main() {
                 completed++;
             }
 
-        }else{
+        }
+        else{
             time++;
         }
     }

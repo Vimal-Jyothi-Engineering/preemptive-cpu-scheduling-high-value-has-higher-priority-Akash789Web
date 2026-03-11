@@ -1,23 +1,20 @@
 #include <stdio.h>
 #include <string.h>
 
-struct process
-{
+struct Process {
     char pid[10];
     int at, bt, pr;
     int rt;
     int ct, wt, tat;
 };
 
-int main()
-{
+int main() {
     int n;
     scanf("%d", &n);
 
-    struct process p[20];
+    struct Process p[50];
 
-    for(int i = 0; i < n; i++)
-    {
+    for(int i = 0; i < n; i++) {
         scanf("%s %d %d %d", p[i].pid, &p[i].at, &p[i].bt, &p[i].pr);
         p[i].rt = p[i].bt;
     }
@@ -25,25 +22,20 @@ int main()
     int completed = 0;
     int time = 0;
 
-    while(completed < n)
-    {
+    while(completed < n) {
         int idx = -1;
-        int max_pr = -1;
+        int highest = -1;
 
-        for(int i = 0; i < n; i++)
-        {
-            if(p[i].at <= time && p[i].rt > 0)
-            {
-                if(p[i].pr > max_pr)
-                {
-                    max_pr = p[i].pr;
+        for(int i = 0; i < n; i++) {
+            if(p[i].at <= time && p[i].rt > 0) {
+                if(p[i].pr > highest) {
+                    highest = p[i].pr;
                     idx = i;
                 }
             }
         }
 
-        if(idx == -1)
-        {
+        if(idx == -1) {
             time++;
             continue;
         }
@@ -51,8 +43,7 @@ int main()
         p[idx].rt--;
         time++;
 
-        if(p[idx].rt == 0)
-        {
+        if(p[idx].rt == 0) {
             completed++;
             p[idx].ct = time;
             p[idx].tat = p[idx].ct - p[idx].at;
@@ -63,21 +54,19 @@ int main()
     float total_wt = 0, total_tat = 0;
 
     printf("Waiting Time:\n");
-    for(int i = 0; i < n; i++)
-    {
+    for(int i = 0; i < n; i++) {
         printf("%s %d\n", p[i].pid, p[i].wt);
         total_wt += p[i].wt;
     }
 
     printf("\nTurnaround Time:\n");
-    for(int i = 0; i < n; i++)
-    {
+    for(int i = 0; i < n; i++) {
         printf("%s %d\n", p[i].pid, p[i].tat);
         total_tat += p[i].tat;
     }
 
-    printf("\nAverage Waiting Time: %.2f\n", total_wt/n);
-    printf("Average Turnaround Time: %.2f\n", total_tat/n);
+    printf("\nAverage Waiting Time: %.2f\n", total_wt / n);
+    printf("Average Turnaround Time: %.2f\n", total_tat / n);
 
     return 0;
 }
